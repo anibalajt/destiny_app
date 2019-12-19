@@ -18,10 +18,11 @@ class ContextStore extends Component {
   state = {
     user: {},
     authorization: {},
-    dispatch: action => {
-      console.log('dispatch');
-      const response = reducer(this.state, action);
-      this.setState(response);
+    dispatch: async action => {
+      console.log('dispatch', action);
+      const response = await reducer(this.state, action);
+      
+      return this.setState(response, () => true);
     }
   };
   render() {

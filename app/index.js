@@ -6,7 +6,7 @@ import WrapperConsumer, { } from "./store/index";
 import { StackActions, NavigationActions } from 'react-navigation';
 import Login from "./login/index"
 
-const isLogin = async (navigation) => {
+const isLogin = async (context) => {
   // console.log('ISLOGIN index')
   try {
     let authorization = await AsyncStorage.getItem("authorization");
@@ -14,7 +14,7 @@ const isLogin = async (navigation) => {
       authorization = JSON.parse(authorization);
       const tokenExpired = await hasTokenExpired(authorization.accessToken);
       if (tokenExpired) {
-        const refresh = await refreshToken(authorization.refreshToken);
+        const refresh = await refreshToken(authorization, context);
         if (refresh) {
           return 'Home'
         }
@@ -31,14 +31,14 @@ const isLogin = async (navigation) => {
 }
 
 const Index = ({ navigation, context }) => {
-  // AsyncStorage.removeItem("authorization");
+  AsyncStorage.removeItem("authorization");
   const [login, setLogin] = useState('');
   const { authorization, dispatch } = context;
   console.log('index :', authorization);
   useEffect(() => {
 
     async function fetchData() {
-      const response = await isLogin(navigation);
+      const response = await isLogin(context);
       if (response) {
         setLogin(response)
         if (login === 'Home') {

@@ -1,11 +1,11 @@
 import axios from "axios"
 import { stringify } from "simple-query-string";
 import { handleAccessToken } from "./handleAccessToken";
-import { URL_get_token, OAuth_client_id as client_id, OAuth_client_secret as client_secret } from "./api_key"
-export const token = async code => {
+import { Token_URL, OAuth_client_id as client_id, OAuth_client_secret as client_secret } from "./api_key"
+export const token = async (code, context) => {
 	let res = await axios({
 		method: 'post',
-		url: URL_get_token,
+		url: Token_URL,
 		data: stringify({
 			grant_type: "authorization_code",
 			code,
@@ -17,7 +17,7 @@ export const token = async code => {
 		}
 	});
 	if (res.status === 200) {
-		const tokens = await handleAccessToken(res.data)
+		const tokens = await handleAccessToken(res.data, context)
 		if (tokens) {
 			return { status: true, tokens };
 		}
@@ -25,22 +25,27 @@ export const token = async code => {
 	}
 	return { status: false, tokens: null };
 };
-export const hasTokenExpired = async accessToken => {
+export const hasTokenExpired = async tokens => {
 	try {
+		const { refreshToken } = tokens
 		const now = Date.now();
 		const { inception, expires } = accessToken;
-		return now >= inception + expires * 1000;
+		const expired = now >= inception + expires * 1000;
+
+		if (!expired) await dispatch({ type: ActionTypes.ADD_AUTHORIZATION, text: tokens });
+
+		return expired
 	} catch (error) {
 		console.log("ehasTokenExpired rror :", error);
 		return true;
 	}
 };
-export const refreshToken = async ({ value: refresh_token }) => {
-	console.log('refreshToken')
+export const refreshToken = async ({ value: refresh_token, context }) => {
 	try {
-		const response = await fetch(URL_get_token, {
-			method: "POST",
-			body: stringify({
+		let response = await axios({
+			method: 'post',
+			url: Token_URL,
+			data: stringify({
 				grant_type: "refresh_token",
 				refresh_token,
 				client_id,
@@ -49,13 +54,15 @@ export const refreshToken = async ({ value: refresh_token }) => {
 			headers: {
 				"Content-Type": "application/x-www-form-urlencoded"
 			}
-		})
-			.then(res => res.json())
-			.then(handleAccessToken);
-		console.log("refreshToken :", response);
-		if (response) {
-			return true;
+		});
+		if (response.status === 200) {
+			const tokens = await handleAccessToken(response.data, context)
+			if (tokens) {
+				return true;
+			}
+			return false;
 		}
+		return false;
 	} catch (error) {
 		console.log("refreshToken error: ", error);
 	}

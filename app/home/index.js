@@ -8,13 +8,9 @@ import {
 import WrapperConsumer, { ActionTypes } from "../store/index";
 
 const Home = ({ context }) => {
-  // alert('asds')
-  // console.log('authorization', context);
   const { authorization, dispatch } = context;
-  // if (!authorization) {
-  //   dispatch({ type: ActionTypes.GET_AUTHORIZATION });
-  // }
   console.log('authorization 2', authorization)
+  
   return (
     <SafeAreaView style={styles.container}>
       <Text>HAY LOGIN </Text>

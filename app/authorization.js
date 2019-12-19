@@ -7,24 +7,18 @@ import {
 import { token } from "./utils";
 import { StackActions, NavigationActions } from 'react-navigation';
 
-import WrapperConsumer, { ActionTypes } from "./store/index";
+import WrapperConsumer from "./store/index";
 
 const isLogin = async (navigation, context, code) => {
   if (code) {
     console.log('cod\e', code)
-    const t = await token(code, navigation);
-    console.log('t', t)
+    const t = await token(code, context);
     if (t.status) {
-      const { authorization, dispatch } = context;
-      // if (!authorization.accessToken) {
-      dispatch({ type: ActionTypes.ADD_AUTHORIZATION, text: t.tokens });
       const resetAction = StackActions.reset({
         index: 0,
         actions: [NavigationActions.navigate({ routeName: 'Home' })],
       });
       navigation.dispatch(resetAction);
-      // }
-
     }
   } else {
     console.log("logouttttttt");
