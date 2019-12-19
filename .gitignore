@@ -57,5 +57,8 @@ buck-out/
 
 # CocoaPods
 /ios/Pods/
-app/utils/api_key.js
+
+
+# app
+/app/utils/api_key.js
 app/utils/api_key.js
