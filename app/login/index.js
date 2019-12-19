@@ -10,7 +10,6 @@ import {
 import { OAuth_Authorization_URL, OAuth_client_id } from "../utils/api_key"
 import Translate from "../assets/translation";
 
-
 const Login = ({ navigation }) => {
   return (
     <ImageBackground style={{ flex: 1, backgroundColor: "#0F1317" }}>
