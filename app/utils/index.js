@@ -1,5 +1,5 @@
 import { handleAccessToken } from "./handleAccessToken";
-import { hasTokenExpired, request } from "./token";
+import { hasTokenExpired, request } from "./request";
 import { getAuthorization } from "./getAuthorization";
 import Lenguaje from "./lenguaje";
 const convertHash = hash => {
