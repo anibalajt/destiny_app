@@ -1,8 +1,7 @@
 import AsyncStorage from '@react-native-community/async-storage';
-import { ActionTypes } from "../store/index";
 
-export const handleAccessToken = async (response, context) => {
-	console.log('handleAccessToken', response)
+export const handleAccessToken = async (response) => {
+	// console.log('handleAccessToken', response)
 	if (response && response.access_token) {
 		const data = response;
 		const inception = Date.now();
@@ -29,14 +28,11 @@ export const handleAccessToken = async (response, context) => {
 		}
 		try {
 			await AsyncStorage.setItem("authorization", JSON.stringify(tokens));
-			const { dispatch } = context;
-			const r = await dispatch({ type: ActionTypes.ADD_AUTHORIZATION, text: tokens });
-
 			return tokens
 		} catch (error) {
-			console.log("error :", error);
+			console.log("handleAccessToken error :", error);
+			return error
 		}
-		return true;
 	} else {
 		throw new Error(
 			"No data or access token in response: " + JSON.stringify(response)

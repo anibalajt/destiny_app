@@ -1,7 +1,6 @@
 import { handleAccessToken } from "./handleAccessToken";
-import { token, refreshToken, hasTokenExpired } from "./token";
+import { hasTokenExpired, request } from "./token";
 import { getAuthorization } from "./getAuthorization";
-
 import Lenguaje from "./lenguaje";
 const convertHash = hash => {
   return ("%u", hash & 0xffffffff).toString();
@@ -9,8 +8,7 @@ const convertHash = hash => {
 export {
   handleAccessToken,
   convertHash,
-  token,
-  refreshToken,
+  request,
   hasTokenExpired,
   Lenguaje,
   getAuthorization

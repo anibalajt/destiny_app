@@ -19,7 +19,7 @@ const wView = ({ navigation }) => {
 					</View>
 				)}
 				javaScriptEnabledAndroid={true}
-				startInLoadingState={false}
+				startInLoadingState={true}
 
 			/>
 		// </SafeAreaView>
