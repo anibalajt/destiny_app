@@ -1,6 +1,8 @@
 import axios from "axios"
 import { stringify } from "simple-query-string";
 import { handleAccessToken } from "./handleAccessToken";
+import { ActionTypes } from "../store/index";
+
 import { Token_URL, OAuth_client_id as client_id, OAuth_client_secret as client_secret } from "./api_key"
 export const token = async (code, context) => {
 	let res = await axios({
@@ -25,14 +27,17 @@ export const token = async (code, context) => {
 	}
 	return { status: false, tokens: null };
 };
-export const hasTokenExpired = async tokens => {
+export const hasTokenExpired = async (tokens, context) => {
 	try {
-		const { refreshToken } = tokens
+		const { refreshToken, accessToken } = tokens
 		const now = Date.now();
 		const { inception, expires } = accessToken;
 		const expired = now >= inception + expires * 1000;
 
-		if (!expired) await dispatch({ type: ActionTypes.ADD_AUTHORIZATION, text: tokens });
+		if (!expired) {
+			const { dispatch } = context;
+			await dispatch({ type: ActionTypes.ADD_AUTHORIZATION, text: tokens });
+		}
 
 		return expired
 	} catch (error) {

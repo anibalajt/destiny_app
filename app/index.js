@@ -12,7 +12,7 @@ const isLogin = async (context) => {
     let authorization = await AsyncStorage.getItem("authorization");
     if (authorization) {
       authorization = JSON.parse(authorization);
-      const tokenExpired = await hasTokenExpired(authorization.accessToken);
+      const tokenExpired = await hasTokenExpired(authorization, context);
       if (tokenExpired) {
         const refresh = await refreshToken(authorization, context);
         if (refresh) {
@@ -31,18 +31,15 @@ const isLogin = async (context) => {
 }
 
 const Index = ({ navigation, context }) => {
-  AsyncStorage.removeItem("authorization");
+  // AsyncStorage.removeItem("authorization");
   const [login, setLogin] = useState('');
   const { authorization, dispatch } = context;
-  console.log('index :', authorization);
   useEffect(() => {
-
     async function fetchData() {
       const response = await isLogin(context);
       if (response) {
         setLogin(response)
         if (login === 'Home') {
-          console.log('redirect in index')
           const resetAction = StackActions.reset({
             index: 0,
             actions: [NavigationActions.navigate({ routeName: 'Home' })],

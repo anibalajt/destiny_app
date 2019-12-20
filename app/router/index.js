@@ -13,7 +13,7 @@ const Router = createStackNavigator(
     Authorization: { screen: Authorization },
   },
   {
-    // initialRouteName: "Login",
+    initialRouteName: "Login",
     headerMode: "none"
   }
 );
