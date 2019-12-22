@@ -9,6 +9,10 @@ const reducer = async (state, action) => {
       return { user: { name: "Andres Jarava" } };
     case ActionTypes.ADD_AUTHORIZATION:
       return { authorization: action.text };
+    case ActionTypes.ADD_MEMBERSHIPS:
+      return { destinyMemberships: action.text };
+    case ActionTypes.ADD_BUNGIENETUSER:
+      return { bungieNetUser: action.text };
     default:
       return null;
   }
@@ -18,10 +22,12 @@ class ContextStore extends Component {
   state = {
     user: {},
     authorization: {},
+    destinyMemberships: [],
+    bungieNetUser: {},
     dispatch: async action => {
       console.log('dispatch', action);
       const response = await reducer(this.state, action);
-      
+
       return this.setState(response, () => true);
     }
   };
