@@ -1,7 +1,7 @@
 import axios from "axios"
 
 export const request = async (payload) => {
-	return axios(payload).then(res => res).catch(err =>{console.log('err', err)});
+	return axios(payload).then(res => res).catch(err => { console.log('err', err) });
 }
 
 export const hasTokenExpired = async (tokens, context) => {
