@@ -1,6 +1,7 @@
 import { Token_URL, OAuth_client_id as client_id, OAuth_client_secret as client_secret } from "./api_key"
 
 export const payload_authorization_code = {
+  method: "post",
   url: Token_URL,
   data: {
     grant_type: "authorization_code",
