@@ -1,4 +1,6 @@
-import { Token_URL, OAuth_client_id as client_id, OAuth_client_secret as client_secret } from "./api_key"
+import { Token_URL, OAuth_client_id as client_id, OAuth_client_secret as client_secret, API_Key } from "./api_key"
+import lenguaje from "./lenguaje";
+const lc = lenguaje()
 
 export const payload_authorization_code = {
   method: "post",
@@ -24,3 +26,12 @@ export const payload_refresh_token = {
     "Content-Type": "application/x-www-form-urlencoded"
   }
 };
+
+export const payload_GetMembershipsById = (token, bungieMembershipId) => ({
+  method: "GET",
+  url: `https://www.bungie.net/Platform/User/GetMembershipsById/${bungieMembershipId}/254/?lc=${lc}`,
+  headers: {
+    Authorization: `Bearer ${token}`,
+    "x-api-key": API_Key
+  }
+});
