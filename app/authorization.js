@@ -35,7 +35,9 @@ const isLogin = async (navigation, context, code) => {
 
 const Authorization = ({ navigation, context }) => {
   const code = navigation.getParam("code")
-  isLogin(navigation, context, code);
+  if (context.authorization && !context.authorization.status) {
+    isLogin(navigation, context, code);
+  }
   return (
     <SafeAreaView style={styles.container}>
       <Text style={{ fontSize: 20 }}>HAY austidadakjs dkaj dka skndaknjs </Text>
