@@ -52,7 +52,13 @@ const isLogin = async (context) => {
   }
   return 'Login'
 }
-
+const goHome = (navigation) => {
+  const resetAction = StackActions.reset({
+    index: 0,
+    actions: [NavigationActions.navigate({ routeName: 'Home' })],
+  });
+  navigation.dispatch(resetAction);
+}
 const Index = ({ navigation, context }) => {
   // AsyncStorage.removeItem("authorization");
   const [login, setLogin] = useState('');
@@ -63,16 +69,17 @@ const Index = ({ navigation, context }) => {
         if (response) {
           setLogin(response)
           if (response === 'Home') {
-            const resetAction = StackActions.reset({
-              index: 0,
-              actions: [NavigationActions.navigate({ routeName: 'Home' })],
-            });
-            navigation.dispatch(resetAction);
+            goHome(navigation)
           }
         }
       }
     }
-    fetchData();
+    
+    if (!context.authorization.status) {
+      fetchData();
+    } else {
+      goHome(navigation)
+    }
   }, [login])
   // console.log('login :', login);
   switch (login) {
