@@ -2,7 +2,7 @@ import { Token_URL, OAuth_client_id as client_id, OAuth_client_secret as client_
 import lenguaje from "./lenguaje";
 const lc = lenguaje()
 
-export const payload_authorization_code = {
+export const payload_authorization_code = JSON.stringify({
   method: "post",
   url: Token_URL,
   data: {
@@ -13,8 +13,9 @@ export const payload_authorization_code = {
   headers: {
     "Content-Type": "application/x-www-form-urlencoded"
   }
-};
-export const payload_refresh_token = {
+});
+
+export const payload_refresh_token = JSON.stringify({
   method: "post",
   url: Token_URL,
   data: {
@@ -25,9 +26,9 @@ export const payload_refresh_token = {
   headers: {
     "Content-Type": "application/x-www-form-urlencoded"
   }
-};
+});
 
-export const payload_GetMembershipsById = (token, bungieMembershipId) => ({
+export const payload_GetMembershipsById = (token, bungieMembershipId) => JSON.stringify({
   method: "GET",
   url: `https://www.bungie.net/Platform/User/GetMembershipsById/${bungieMembershipId}/254/?lc=${lc}`,
   headers: {
