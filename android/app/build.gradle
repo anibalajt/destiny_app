@@ -179,6 +179,9 @@ android {
 }
 
 dependencies {
+    implementation project(':react-native-zip-archive')
+    implementation project(':react-native-sqlite-storage')
+    implementation project(':rn-fetch-blob')
     implementation fileTree(dir: "libs", include: ["*.jar"])
     implementation "com.facebook.react:react-native:+"  // From node_modules
 
