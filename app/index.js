@@ -4,7 +4,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 import { StackActions, NavigationActions } from 'react-navigation';
 import { stringify } from "simple-query-string";
 
-import { payload_refresh_token, payload_GetManifest } from "./utils/payloads"
+import { payload_refresh_token } from "./utils/payloads"
 import { hasTokenExpired, request, handleAccessToken, GetMembershipData, getManifest } from "./utils/index"
 import WrapperConsumer, { ActionTypes } from "./store/index";
 import Login from "./login/index"
@@ -63,7 +63,7 @@ const goHome = async (navigation, context) => {
     return false
   }
   const responseManifest = await getManifest()
-  
+
   const { destinyMemberships, bungieNetUser } = resMembershipData
   await dispatch({
     type: ActionTypes.ADD_MEMBERSHIPS, text: {
