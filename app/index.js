@@ -4,55 +4,74 @@ import AsyncStorage from '@react-native-community/async-storage';
 import { StackActions, NavigationActions } from 'react-navigation';
 import { stringify } from "simple-query-string";
 
-import { payload_refresh_token } from "./utils/payloads"
-import { hasTokenExpired, request, handleAccessToken } from "./utils/index"
+import { payload_refresh_token, payload_GetManifest } from "./utils/payloads"
+import { hasTokenExpired, request, handleAccessToken, GetMembershipData, getManifest } from "./utils/index"
 import WrapperConsumer, { ActionTypes } from "./store/index";
 import Login from "./login/index"
 
+//see if there is a login and token expired
 const isLogin = async (context) => {
-  // console.log('ISLOGIN index')
   const { dispatch } = context;
-
   try {
     let authorization = await AsyncStorage.getItem("authorization");
     if (authorization) {
-      // console.log(authorization)
       authorization = JSON.parse(authorization);
-      const tokenExpired = true// await hasTokenExpired(authorization, context);
+      const tokenExpired = await hasTokenExpired(authorization, context);
       //Token Expired
       if (tokenExpired) {
-
-        let { data } = payload_refresh_token
+        let payload = JSON.parse(payload_refresh_token)
+        let { data } = payload
         data = { ...data, refresh_token: authorization.refreshToken.value }
-        payload_refresh_token.data = stringify(data)
+        payload.data = stringify(data)
 
-        return request(payload_refresh_token).then(async (res) => {
+        return request(payload).then(async (res) => {
           // console.log('res', res)
           if (res.status === 200) {
             return handleAccessToken(res.data).then(tokens => {
               if (tokens) {
                 const { dispatch } = context;
                 dispatch({ type: ActionTypes.ADD_AUTHORIZATION, text: tokens });
-                return 'Home'
+                return { router: 'Home', tokens }
               }
               console.log('isLogin tokens', tokens)
             })
           }
         })
-
       }
       if (!tokenExpired) {
         await dispatch({ type: ActionTypes.ADD_AUTHORIZATION, text: authorization });
-        return 'Home'
+        return { router: 'Home', tokens: authorization }
       }
     }
   } catch (error) {
     console.log("isLogin error :", error);
-    return 'Login'
+    return { router: 'Login' }
   }
-  return 'Login'
+  return { router: 'Login' }
 }
-const goHome = (navigation) => {
+
+const goHome = async (navigation, context) => {
+  const { dispatch, authorization } = context;
+  const accountSelected = await AsyncStorage.getItem("accountSelected");
+  if (!accountSelected) {
+    await AsyncStorage.setItem("accountSelected", '1');
+  }
+  const { bungieMembershipId, accessToken } = authorization
+  const resMembershipData = await GetMembershipData(accessToken, bungieMembershipId)
+  if (!resMembershipData.bungieNetUser.displayName) {
+    console.log("goHome logouttttttt");
+    return false
+  }
+  const responseManifest = await getManifest()
+  
+  const { destinyMemberships, bungieNetUser } = resMembershipData
+  await dispatch({
+    type: ActionTypes.ADD_MEMBERSHIPS, text: {
+      accountSelected: accountSelected ? accountSelected : '1', destinyMemberships
+    }
+  });
+  await dispatch({ type: ActionTypes.ADD_BUNGIENETUSER, text: bungieNetUser });
+
   const resetAction = StackActions.reset({
     index: 0,
     actions: [NavigationActions.navigate({ routeName: 'Home' })],
@@ -66,19 +85,19 @@ const Index = ({ navigation, context }) => {
     async function fetchData() {
       if (login === '') {
         const response = await isLogin(context);
-        if (response) {
-          setLogin(response)
+        if (response.router) {
+          setLogin(response.router)
           if (response === 'Home') {
-            goHome(navigation)
+            goHome(navigation, { dispatch: context.dispatch, authorization: response.tokens })
           }
         }
       }
     }
-    
+
     if (!context.authorization.status) {
       fetchData();
     } else {
-      goHome(navigation)
+      goHome(navigation, context)
     }
   }, [login])
   // console.log('login :', login);

@@ -7,21 +7,34 @@ import {
 
 import { stringify } from "simple-query-string";
 import { StackActions, NavigationActions } from 'react-navigation';
-import { payload_authorization_code } from "./utils/payloads"
-import { request, handleAccessToken } from "./utils";
+import { payload_authorization_code, payload_GetMembershipsById } from "./utils/payloads"
+import { request, handleAccessToken, GetMembershipData } from "./utils";
 import WrapperConsumer, { ActionTypes } from "./store/index";
 
-const isLogin = async (navigation, context, code) => {
-  let { data } = payload_authorization_code
-  data = { ...data, code }
-  payload_authorization_code.data = stringify(data)
 
-  const res = await request(payload_authorization_code)
+//get authorization code
+const isLogin = async (navigation, context, code) => {
+  let payload = JSON.parse(payload_authorization_code)
+  let { data } = payload
+  data = { ...data, code }
+
+  payload.data = stringify(data)
+  const res = await request(payload)
   if (res.status === 200) {
     const tokens = await handleAccessToken(res.data, context)
     if (tokens) {
       const { dispatch } = context;
+      const { bungieMembershipId, accessToken } = tokens
+      // console.log('bungieMembershipId', bungieMembershipId, value)
+      const resMembershipData = await GetMembershipData(accessToken, bungieMembershipId)
+      if (!resMembershipData.bungieNetUser.displayName) {
+        console.log("isLogin logouttttttt");
+        return false
+      }
+      const { destinyMemberships, bungieNetUser } = resMembershipData
       await dispatch({ type: ActionTypes.ADD_AUTHORIZATION, text: tokens });
+      await dispatch({ type: ActionTypes.ADD_MEMBERSHIPS, text: { accountSelected: '1', destinyMemberships } });
+      await dispatch({ type: ActionTypes.ADD_BUNGIENETUSER, text: bungieNetUser });
 
       const resetAction = StackActions.reset({
         index: 0,
@@ -29,7 +42,7 @@ const isLogin = async (navigation, context, code) => {
       });
       navigation.dispatch(resetAction);
     }
-    console.log("isLogin logouttttttt");
+    // console.log("isLogin logouttttttt");
   }
 }
 

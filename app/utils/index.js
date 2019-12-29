@@ -4,6 +4,9 @@ import { getAuthorization } from "./getAuthorization";
 import endpoints from "./endpoints"
 import Lenguaje from "./lenguaje";
 import statusBarHeight from "./statusBarHeight"
+import GetMembershipData from "./getMembershipData"
+import getManifest from "./manifest"
+
 const convertHash = hash => {
   return ("%u", hash & 0xffffffff).toString();
 };
@@ -26,5 +29,7 @@ export {
   getAuthorization,
   endpoints,
   statusBarHeight,
-  membershipType
+  membershipType,
+  GetMembershipData,
+  getManifest
 };
