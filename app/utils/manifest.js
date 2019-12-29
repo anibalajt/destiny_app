@@ -17,14 +17,14 @@ export default async () => {
   // RNFetchBlob.fs.unlink(targetPath)
   // RNFetchBlob.fs.unlink(targetPathLibrary)
   // return false
-  console.log('manifest')
+  // console.log('manifest')
   try {
     const res = await request(payload_Get(endpoints.getManifest))
     if (res.data.Response.version) {
       const manifest = await AsyncStorage.getItem("manifest");
       // if (manifest) {
       const { versionManifest, languaje } = JSON.parse(manifest) || { versionManifest: "0.0.1", languaje: lc }
-      console.log('versionManifest', versionManifest)
+      // console.log('versionManifest', versionManifest)
       if (versionManifest !== res.data.Response.version) {
         // GET FILE NAME
         let fileName = res.data.Response.mobileWorldContentPaths[lc];
@@ -34,12 +34,12 @@ export default async () => {
         const Sqlite3Exist = await downloadDB(res.data.Response.mobileWorldContentPaths[lc], fileName)
         if (Sqlite3Exist) {
           await AsyncStorage.setItem("manifest", JSON.stringify({ versionManifest: res.data.Response.version, languaje: lc }));
-          console.log('manifest donwloaded', res.data.Response.version)
+          // console.log('manifest donwloaded', res.data.Response.version)
 
           return true
         }
       } else {
-        console.log('same version')
+        // console.log('same version')
         return true
       }
     }
@@ -50,7 +50,6 @@ export default async () => {
   }
 
 }
-//IOS
 const downloadDB = async (mobileWorldContentPaths, fileName) => {
   try {
     let dirs = RNFetchBlob.fs.dirs
@@ -68,7 +67,7 @@ const downloadDB = async (mobileWorldContentPaths, fileName) => {
 
         const fileDownloadExist = await fileExist(sourcePath);
         if (fileDownloadExist) {
-          console.log('fileDownloadExist')
+          // console.log('fileDownloadExist')
           await fileUnzip(targetPath + '/db.zip', targetPath)
 
           await fileExist(`${targetPath}/${fileName}`)
@@ -76,7 +75,7 @@ const downloadDB = async (mobileWorldContentPaths, fileName) => {
           await fileCP(`${targetPath}/${fileName}`, targetPathLibrary + '/db.sqlite3')
 
           const fileSqlite3Exist = await fileExist(targetPathLibrary + '/db.sqlite3')
-          console.log('fileSqlite3 exist', fileSqlite3Exist)
+          // console.log('fileSqlite3 exist', fileSqlite3Exist)
           return fileSqlite3Exist
         }
       }
