@@ -1,9 +1,10 @@
 import React, { Component, createContext } from "react";
 import ActionTypes from "./actionTypes.js";
+import { equipment } from "./equipment"
 const { Provider, Consumer } = createContext();
 
 const reducer = async (state, action) => {
-  console.log('reducer');
+  // console.log('reducer');
   switch (action.type) {
     case ActionTypes.GET_USER:
       return { user: { name: "Andres Jarava" } };
@@ -13,6 +14,10 @@ const reducer = async (state, action) => {
       return { memberships: action.text };
     case ActionTypes.ADD_BUNGIENETUSER:
       return { bungieNetUser: action.text };
+    case ActionTypes.ADD_CHARACTERS:
+      return { characters: action.text };
+    case ActionTypes.ADD_CHARACTERS_SELECTED:
+      return { character_selected: action.text };
     case ActionTypes.LOGOUT:
       return {
         authorization: {},
@@ -30,8 +35,10 @@ class ContextStore extends Component {
     authorization: {},
     memberships: {},
     bungieNetUser: {},
+    characters: {},
+    character_selected: null,
     dispatch: async action => {
-      console.log('dispatch', action);
+      // console.log('dispatch', action);
       const response = await reducer(this.state, action);
       return this.setState(response, () => true);
     }
