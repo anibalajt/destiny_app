@@ -50,7 +50,7 @@ const getAccountDate = async (context) => {
 }
 
 const Home = ({ context }) => {
-  const { character_selected, characters } = context;
+  const { character_selected, characters, dispatch } = context;
   // console.log('characterSelect', character_selected)
   if (!character_selected) {
     getAccountDate(context)
@@ -61,7 +61,11 @@ const Home = ({ context }) => {
         character_selected ?
           <Fragment>
             <Inventory />
-            <Footer characterSelect={character_selected} characters={characters} />
+            <Footer
+              vault={character_selected === 'vault' ? true : false}
+              characterSelect={character_selected}
+              characters={characters}
+              dispatch={dispatch} />
           </Fragment>
           : null
       }

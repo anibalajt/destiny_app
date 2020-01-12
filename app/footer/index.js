@@ -1,15 +1,21 @@
 import React, { Fragment } from "react";
 import { StyleSheet, View, Dimensions, TouchableHighlight } from "react-native";
+import { ActionTypes } from "../store/index";
+
 const { width } = Dimensions.get("window");
 import Emblem from "./emblem";
 import Vault from "./vault";
+
+const onChangeCharacter = async (dispatch, characterId) => {
+  await dispatch({ type: ActionTypes.ADD_CHARACTERS_SELECTED, text: characterId });
+}
 
 const Footer = ({
   characterSelect = null,
   characters = [],
   vault = false,
   menubar = false,
-  onChangeCharacter = () => { console.log('click') }
+  dispatch
 }) => {
   return (
     <View style={[styles.container]}>
@@ -29,7 +35,7 @@ const Footer = ({
                 backgroundColor: "#272C30"
               }
             ]}
-            onPress={e => onChangeCharacter(characters[character].characterId)}
+            onPress={e => onChangeCharacter(dispatch, characters[character].characterId)}
           >
             <Fragment>
               <Emblem character={characters[character]} />
@@ -43,7 +49,7 @@ const Footer = ({
               backgroundColor: "#272C30"
             }
           ]}
-          onPress={e => onChangeCharacter("vault")}
+          onPress={e => onChangeCharacter(dispatch, "vault")}
         >
           <Vault />
         </TouchableHighlight>
