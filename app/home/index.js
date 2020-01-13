@@ -10,6 +10,7 @@ import WrapperConsumer, { ActionTypes } from "../store/index";
 import { request } from "../utils/index"
 import Inventory from "../inventory"
 import { payload_GetAccountDate } from "../utils/payloads"
+import setEquitpment from "../inventory/equipment"
 
 const getAccountDate = async (context) => {
   const { authorization: { accessToken }, memberships: { accountSelected, destinyMemberships } } = context;
@@ -17,7 +18,7 @@ const getAccountDate = async (context) => {
   // console.log('destinyMemberships[accountSelected]', destinyMemberships[accountSelected])
   const payload = payload_GetAccountDate(accessToken, membershipType, membershipId)
   const res = await request(JSON.parse(payload))
-  console.log('res', res)
+  // console.log('res', res)
 
   const {
     profileInventory: { data: { items } },
@@ -43,14 +44,16 @@ const getAccountDate = async (context) => {
     characterEquipment: characterEquipment.data,
     equipment: characterEquipment.data[characterSelect]
   }
+
   const { dispatch } = context;
+  await dispatch({ type: ActionTypes.ADD_EQUIPMENT, text: data.equipment.items });
   await dispatch({ type: ActionTypes.ADD_CHARACTERS, text: characters.data });
   await dispatch({ type: ActionTypes.ADD_CHARACTERS_SELECTED, text: characterSelect });
 
 }
 
 const Home = ({ context }) => {
-  const { character_selected, characters, dispatch } = context;
+  const { character_selected, characters, dispatch, character_equipment } = context;
   // console.log('characterSelect', character_selected)
   if (!character_selected) {
     getAccountDate(context)
@@ -60,7 +63,7 @@ const Home = ({ context }) => {
       {
         character_selected ?
           <Fragment>
-            <Inventory />
+            <Inventory character_equipment={character_equipment} />
             <Footer
               vault={character_selected === 'vault' ? true : false}
               characterSelect={character_selected}
