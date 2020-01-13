@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { StyleSheet, Text, View, Image } from "react-native";
-import vaultDefinition from "../utils/vaultDefinition"
+import vaultDefinition from "./vaultDefinition"
 
 export default () => {
 	const [vault, setVault] = useState('')

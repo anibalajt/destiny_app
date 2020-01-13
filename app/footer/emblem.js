@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { StyleSheet, Text, View, Image } from "react-native";
-import emblemDefinition from "../utils/emblemDefinition"
+import emblemDefinition from "./emblemDefinition"
 export default ({ character }) => {
   const { emblemPath } = character;
   const [typeClass, setTypeClass] = useState('')

@@ -1,27 +1,27 @@
 import _ from "lodash";
 import SQLite from 'react-native-sqlite-storage';
 
-import { convertHash, Lenguaje } from "./index";
+import { convertHash, Lenguaje } from "../utils";
 
 let DB;
 
 const closeDatabase = () => {
-  console.log('Closing', DB)
+  // console.log('Closing', DB)
   if (DB) {
-    console.log("Closing database ...");
+    // console.log("Closing database ...");
     DB.close(closeCB, errorCB);
   } else {
-    console.log("Database was not OPENED");
+    // console.log("Database was not OPENED");
   }
 }
 const errorCB = (err) => {
-  console.log("SQL Error: ", err);
+  // console.log("SQL Error: ", err);
 }
 const openCB = () => {
-  console.log("Database OPENED");
+  // console.log("Database OPENED");
 }
 const closeCB = () => {
-  console.log("Database CLOSED");
+  // console.log("Database CLOSED");
 }
 export default (id, setVault, setvaultIcon) => {
   DB = SQLite.openDatabase(
