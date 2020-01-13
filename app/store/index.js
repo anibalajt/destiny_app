@@ -1,6 +1,6 @@
 import React, { Component, createContext } from "react";
 import ActionTypes from "./actionTypes.js";
-import { equipment } from "./equipment"
+import { equipment } from "../inventory/equipment"
 const { Provider, Consumer } = createContext();
 
 const reducer = async (state, action) => {
@@ -18,6 +18,8 @@ const reducer = async (state, action) => {
       return { characters: action.text };
     case ActionTypes.ADD_CHARACTERS_SELECTED:
       return { character_selected: action.text };
+    case ActionTypes.ADD_EQUIPMENT:
+      return { character_equipment: action.text };
     case ActionTypes.LOGOUT:
       return {
         authorization: {},
@@ -36,6 +38,7 @@ class ContextStore extends Component {
     memberships: {},
     bungieNetUser: {},
     characters: {},
+    character_equipment: [],
     character_selected: null,
     dispatch: async action => {
       // console.log('dispatch', action);
