@@ -7,45 +7,39 @@ import {
 } from "react-native";
 import TabBar from "./tabBar"
 import ScrollableTabView from "react-native-scrollable-tab-view";
-import WrapperConsumer, { ActionTypes } from "../store/index";
-import { request } from "../utils/index"
-
-import { payload_GetAccountDate } from "../utils/payloads"
+import Set from "./set/index"
+import equipment from "../inventory/equipment"
 
 
-const inventory = ({ context }) => {
-  // console.log('authorization 2', context)
-  return (
-    <ScrollableTabView
-      style={{ backgroundColor: '#242424' }}
-      tabBarPosition="top"
-      renderTabBar={() => <TabBar />}>
-      <View tabLabel="WEAPONS">
-        <Text>
-          home
-          </Text>
-      </View>
-      <View tabLabel="ARMOR">
-        <Text>
-          profile
-          </Text>
-      </View>
-      <View tabLabel="GENERAL">
-        <Text>
-          settings
-          </Text>
-      </View>
-      <View tabLabel="INVENTORY">
-        <Text>
-          settings
-          </Text>
-      </View>
-    </ScrollableTabView>
+class inventory extends Component {
+  state = {
+    weapons: [],
+    armor: [],
+    misc: [],
+  }
+  componentDidMount() {
+    const { character_equipment } = this.props
+    equipment(character_equipment, this)
+  }
+  render() {
+    const { weapons, armor, misc } = this.state
+  
+    return (
+      <ScrollableTabView
+        style={{ backgroundColor: '#242424' }}
+        tabBarPosition="top"
+        renderTabBar={() => <TabBar />}>
+        <Set tabLabel="WEAPONS" type="weapons" equipment={weapons} />
+        <Set tabLabel="ARMOR" type="armor" equipment={armor} />
+        <Set tabLabel="GENERAL" type="general" equipment={misc} />
+        <Set tabLabel="INVENTORY" type="inventory" />
+      </ScrollableTabView>
 
-  )
-
+    )
+  }
 }
-export default WrapperConsumer(inventory)
+
+export default (inventory)
 const styles = StyleSheet.create({
   container: {
     flex: 1,
