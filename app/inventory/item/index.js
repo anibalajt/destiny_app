@@ -27,24 +27,29 @@ const Item = ({ item }) => {
   icon = { uri: `https://www.bungie.net${icon}` };
   // }
   return (
-    <Fragment>
+    <View style={styles.container}>
       <Image
         source={icon}
         style={[styles.weapon]}
       />
       {/* <Text>{name}</Text> */}
-    </Fragment>
+    </View>
 
   )
 }
 
 export default (Item)
 const styles = StyleSheet.create({
+  container: {
+    width: 65,
+    height: 65,
+    marginLeft: 8,
+    // marginBottom: 8
+  },
   weapon: {
     borderColor: "#fff",
     borderWidth: 2,
     zIndex: 0,
-    // flex: 1,
     width: 65,
     height: 65,
     resizeMode: "contain"
