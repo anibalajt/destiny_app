@@ -20,6 +20,8 @@ const reducer = async (state, action) => {
       return { character_selected: action.text };
     case ActionTypes.ADD_EQUIPMENT:
       return { character_equipment: action.text };
+    case ActionTypes.DATA_ACCOUNT:
+      return { data_account: action.text };
     case ActionTypes.LOGOUT:
       return {
         authorization: {},
@@ -38,7 +40,11 @@ class ContextStore extends Component {
     memberships: {},
     bungieNetUser: {},
     characters: {},
-    character_equipment: [],
+    data_account: {},
+    character_equipment: {
+      equipment: [],
+      other_equipment: []
+    },
     character_selected: null,
     dispatch: async action => {
       // console.log('dispatch', action);

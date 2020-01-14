@@ -6,7 +6,15 @@ import Lenguaje from "./lenguaje";
 import statusBarHeight from "./statusBarHeight"
 import GetMembershipData from "./getMembershipData"
 import getManifest from "./manifest"
-
+const typeBucketHash = {
+  weapons: [3284755031, 1498876634, 2465295065, 953998645
+  ],
+  armor: [3448274439, 3551918588, 14239492, 20886954, 1585787867
+  ],
+  general: [4023194814, 4292445962, 2025709351, 284967655, 4274335291, 375726501
+  ],
+  inventory: ["Consumables", "Modifications", "Shaders"]
+}
 const convertHash = hash => {
   return ("%u", hash & 0xffffffff).toString();
 };
@@ -31,5 +39,6 @@ export {
   statusBarHeight,
   membershipType,
   GetMembershipData,
-  getManifest
+  getManifest,
+  typeBucketHash
 };
