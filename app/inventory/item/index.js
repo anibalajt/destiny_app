@@ -19,6 +19,7 @@ const Item = ({ item }) => {
     inventory,
     hash
   } = item;
+  // console.log('equippingBlock', item)
   let { icon, name } = displayProperties;
   // if (inventory.bucketTypeHash === 3284755031) {
   //   icon = '';

@@ -26,16 +26,23 @@ class inventory extends Component {
   }
   componentDidUpdate(prevProps) {
     if (prevProps.character_selected !== this.props.character_selected) {
-      console.log('prevProps', prevProps)
-      console.log('props', this.props)
+      this.setState({
+        mainWeapons: {},
+        mainArmor: {},
+        mainMisc: {},
+        weapons: {},
+        armor: {},
+        misc: {},
+      })
       const { character_equipment } = this.props
       equipment(character_equipment, this)
     }
   }
   render() {
     const { mainWeapons, mainArmor, mainMisc, weapons, armor, misc } = this.state
+    // console.log('mainWeapons', mainWeapons)
     return (
-      <ScrollableTabView
+      <ScrollableTabView prerenderingSiblingsNumber={2}
         style={{ backgroundColor: '#242424' }}
         tabBarPosition="top"
         renderTabBar={() => <TabBar />}>

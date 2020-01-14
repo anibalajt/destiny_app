@@ -54,7 +54,6 @@ const getAccountDate = async (context) => {
     inventories: characterInventories.data[characterSelect].items,
     characterEquipment: characterEquipment.data,
   }
-
   const { dispatch } = context;
   await dispatch({
     type: ActionTypes.DATA_ACCOUNT, text: {
