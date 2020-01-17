@@ -16,7 +16,8 @@ export default async () => {
   let dirs = RNFetchBlob.fs.dirs
   const targetPath = dirs.DocumentDir + '/LocalDatabase'
   const targetPathLibrary = dirs.LibraryDir
-
+  // await SQLite.deleteDatabase('db.sqlite3')
+  // await RNFetchBlob.fs.unlink(targetPathLibrary + '/db.sqlite3')
   // await SQLite.deleteDatabase('db.sqlite3')
   // RNFetchBlob.fs.unlink(targetPath)
   // RNFetchBlob.fs.unlink(targetPathLibrary + '/db.sqlite3')

@@ -14,6 +14,7 @@ import WrapperConsumer, { ActionTypes } from "./store/index";
 
 //get authorization code
 const isLogin = async (navigation, context, code) => {
+  console.log('isLogin')
   let payload = JSON.parse(payload_authorization_code)
   let { data } = payload
   data = { ...data, code }
@@ -49,6 +50,7 @@ const isLogin = async (navigation, context, code) => {
 }
 
 const Authorization = ({ navigation, context }) => {
+  console.log('Authorization', navigation)
   const code = navigation.getParam("code")
   if (context.authorization && !context.authorization.status) {
     isLogin(navigation, context, code);

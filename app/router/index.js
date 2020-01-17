@@ -1,3 +1,4 @@
+import React from 'react'
 import { createAppContainer } from "react-navigation";
 import { createStackNavigator } from "react-navigation-stack"
 import Index from "../index";
@@ -30,16 +31,17 @@ const RootStack = createStackNavigator(
     },
   },
   {
+    initialRouteName: "Main",
     mode: 'modal',
     headerMode: 'none',
   }
 );
 
-// const AppContainer = createAppContainer(RootStack);
-export default createAppContainer(RootStack);
+const AppContainer = createAppContainer(MainStack);
+// export default createAppContainer(MainStack);
 
-// export default class App extends React.Component {
-//   render() {
-//     return <AppContainer />;
-//   }
-// }
+export default class App extends React.Component {
+  render() {
+    return <AppContainer />;
+  }
+}

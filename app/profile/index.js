@@ -28,14 +28,16 @@ import WrapperConsumer, { ActionTypes } from "../store/index";
 // };
 const logout = async (navigation, context) => {
   const { dispatch } = context;
-  // AsyncStorage.removeItem("authorization");
-  // AsyncStorage.removeItem("accountSelected");
+  AsyncStorage.removeItem("authorization");
+  AsyncStorage.removeItem("accountSelected");
   await dispatch({ type: ActionTypes.LOGOUT });
-  const resetAction = StackActions.reset({
-    index: 0,
-    actions: [NavigationActions.navigate({ routeName: 'Login' })],
-  });
-  navigation.dispatch(resetAction);
+  // const resetAction = StackActions.reset({
+  //   index: 0,
+  //   actions: [NavigationActions.navigate({ routeName: 'Login' })],
+  // });
+  // navigation.dispatch(resetAction);
+  navigation.replace({ routeName: 'Home' })
+
 }
 const Profile = ({ navigation, context }) => {
   const { memberships: { accountSelected, destinyMemberships }, bungieNetUser: { profileThemeName, profilePicturePath, displayName }

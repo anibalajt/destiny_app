@@ -77,12 +77,12 @@ const goHome = async (navigation, context) => {
   //   actions: [NavigationActions.navigate({ routeName: 'Main' })],
   // });
   // navigation.dispatch(resetAction);
-  console.log('navigation', navigation)
   navigation.replace({ routeName: 'Home' })
 }
 const Index = ({ navigation, context }) => {
   // AsyncStorage.removeItem("authorization");
   // AsyncStorage.removeItem("manifest");
+
   const [login, setLogin] = useState('');
   useEffect(() => {
     async function fetchData() {
