@@ -10,7 +10,13 @@ A [React Native](https://facebook.github.io/react-native/) app utilising [React 
 Built as a personal training project for [React Native](https://facebook.github.io/react-native/). Design and development by [Andres Jarava](https://www.linkedin.com/in/anibalajt/).
 
 
-create api_key.js in `app/utils/`
+## Installation
+
+If you want to test the app on a simulator running locally:
+
+`git clone https://github.com/anibalajt/destiny_app.git`
+
+create file api_key.js in `app/utils/`
 
 ```
 module.exports = {
@@ -21,3 +27,34 @@ module.exports = {
   OAuth_client_secret: "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
 }
 ```
+
+```bash
+$ cd destiny_app
+
+$ yarn install
+
+$ cd ios
+
+$ pod install
+
+$ cd ..
+
+$ react-native run-ios
+```
+
+
+## How can I get an API Key?
+
+info -> [Bungie](https://github.com/Bungie-net/api)
+
+## Contribute
+
+If you find a bug, feel free to open an issue or submit a pull request.
+
+New ideas are always welcome, if you have an idea to change or add a feature, let me know by opening an issue or messaging me on [Twitter](https://twitter.com/anibalajt).
+
+## Licence
+
+MIT License
+
+See [LICENSE](LICENSE)
