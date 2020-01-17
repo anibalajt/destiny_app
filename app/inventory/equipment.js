@@ -22,7 +22,7 @@ const openCB = () => {
 const closeCB = () => {
   // console.log("Database CLOSED");
 }
-export default async ({ equipment, other_equipment }, self) => {
+export default async ({ equipment, other_equipment, instances }, self) => {
   const character_equipment = equipment
 
   // let { weapons, armor, misc, mainWeapons, mainArmor, mainMisc } = self.state
@@ -52,9 +52,9 @@ export default async ({ equipment, other_equipment }, self) => {
             equip.location = item.location;
             equip.itemHash = item.itemHash;
             equip.itemInstanceId = item.itemInstanceId;
-            // equip.instances = instances[item.itemInstanceId]
-            //   ? instances[item.itemInstanceId]
-            //   : null;
+            equip.instances = instances[item.itemInstanceId]
+              ? instances[item.itemInstanceId]
+              : null;
             switch (equip.itemType) {
               case 3:
               case 16:
@@ -91,7 +91,9 @@ export default async ({ equipment, other_equipment }, self) => {
           equip.location = item.location;
           equip.itemHash = item.itemHash;
           equip.itemInstanceId = item.itemInstanceId;
-
+          equip.instances = instances[item.itemInstanceId]
+            ? instances[item.itemInstanceId]
+            : null;
           switch (equip.itemType) {
             case 3:
             case 16:

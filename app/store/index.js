@@ -43,7 +43,8 @@ class ContextStore extends Component {
     data_account: {},
     character_equipment: {
       equipment: [],
-      other_equipment: []
+      other_equipment: [],
+      instances: {}
     },
     character_selected: null,
     dispatch: async action => {

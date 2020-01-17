@@ -14,11 +14,12 @@ import setEquitpment from "../inventory/equipment"
 
 
 const onChangeCharacter = async (context, characterId) => {
-  const { dispatch, data_account: { characterEquipment, characterInventories } } = context
+  const { dispatch, data_account: { characterEquipment, characterInventories, instances } } = context
   await dispatch({
     type: ActionTypes.ADD_EQUIPMENT, text: {
       equipment: characterEquipment[characterId].items,
-      other_equipment: characterInventories[characterId].items
+      other_equipment: characterInventories[characterId].items,
+      instances: instances
     }
   });
   await dispatch({ type: ActionTypes.ADD_CHARACTERS_SELECTED, text: characterId });
@@ -58,13 +59,15 @@ const getAccountDate = async (context) => {
   await dispatch({
     type: ActionTypes.DATA_ACCOUNT, text: {
       characterEquipment: characterEquipment.data,
-      characterInventories: characterInventories.data
+      characterInventories: characterInventories.data,
+      instances: itemComponents.instances.data,
     }
   });
   await dispatch({
     type: ActionTypes.ADD_EQUIPMENT, text: {
       equipment: characterEquipment.data[characterSelect].items,
-      other_equipment: characterInventories.data[characterSelect].items
+      other_equipment: characterInventories.data[characterSelect].items,
+      instances: itemComponents.instances.data,
     }
   });
   await dispatch({ type: ActionTypes.ADD_CHARACTERS, text: characters.data });
@@ -72,9 +75,8 @@ const getAccountDate = async (context) => {
 
 }
 
-const Home = ({ context }) => {
+const Home = ({ context, navigation }) => {
   const { character_selected, characters, dispatch, character_equipment } = context;
-  console.log('characterSelect', character_selected)
   if (!character_selected) {
     getAccountDate(context)
   }
@@ -83,7 +85,7 @@ const Home = ({ context }) => {
       {
         character_selected ?
           <Fragment>
-            <Inventory character_equipment={character_equipment} character_selected={character_selected} />
+            <Inventory navigation={navigation} character_equipment={character_equipment} character_selected={character_selected} />
             <Footer
               onChangeCharacter={onChangeCharacter}
               context={context}

@@ -4,8 +4,10 @@ import Index from "../index";
 import Home from "../home/index";
 import WebView from "../login/webView";
 import Authorization from "../authorization"
+import ModalScreen from "../ModalScreen"
 
-const Router = createStackNavigator(
+
+const MainStack = createStackNavigator(
   {
     Login: { screen: Index },
     WebView: { screen: WebView },
@@ -18,4 +20,26 @@ const Router = createStackNavigator(
   }
 );
 
-export default createAppContainer(Router);
+const RootStack = createStackNavigator(
+  {
+    Main: {
+      screen: MainStack,
+    },
+    MyModal: {
+      screen: ModalScreen,
+    },
+  },
+  {
+    mode: 'modal',
+    headerMode: 'none',
+  }
+);
+
+// const AppContainer = createAppContainer(RootStack);
+export default createAppContainer(RootStack);
+
+// export default class App extends React.Component {
+//   render() {
+//     return <AppContainer />;
+//   }
+// }

@@ -36,11 +36,13 @@ const isLogin = async (navigation, context, code) => {
       await dispatch({ type: ActionTypes.ADD_MEMBERSHIPS, text: { accountSelected: '1', destinyMemberships } });
       await dispatch({ type: ActionTypes.ADD_BUNGIENETUSER, text: bungieNetUser });
 
-      const resetAction = StackActions.reset({
-        index: 0,
-        actions: [NavigationActions.navigate({ routeName: 'Home' })],
-      });
-      navigation.dispatch(resetAction);
+      // const resetAction = StackActions.reset({
+      //   index: 0,
+      //   actions: [NavigationActions.navigate({ routeName: 'Home' })],
+      // });
+      // navigation.dispatch(resetAction);
+      navigation.replace({ routeName: 'Home' })
+
     }
     // console.log("isLogin logouttttttt");
   }

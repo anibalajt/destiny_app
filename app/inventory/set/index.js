@@ -11,7 +11,8 @@ import { typeBucketHash } from "../../utils"
 const getInfoBucketDefinition = () => {
 
 }
-export default ({ type, equipment, other_equipment }) => {
+export default ({ openModal, type, equipment, other_equipment }) => {
+  
   return (
     <ScrollView>
       <View style={styles.container}>
@@ -21,11 +22,11 @@ export default ({ type, equipment, other_equipment }) => {
               {equipment[slot] && equipment[slot].bucketDefinition && equipment[slot].bucketDefinition.displayProperties.name}
             </Text>
             <View key={'s_' + index} style={styles.equippingBlock} >
-              {equipment[slot] && <Item key={index} item={equipment[slot]} />}
+              {equipment[slot] && <Item openModal={openModal} key={index} item={equipment[slot]} />}
               < View style={styles.contentEquip} >
                 {
                   other_equipment[slot] && other_equipment[slot].map((obj, index) =>
-                    <Item key={index} item={obj} />
+                    <Item openModal={openModal} key={index} item={obj} />
                   )
                 }
               </View>
