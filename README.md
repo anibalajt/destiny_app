@@ -43,7 +43,6 @@ $ cd ..
 $ react-native run-ios
 ```
 
-
 ## How can I get an API Key?
 
 info -> [Bungie](https://github.com/Bungie-net/api)
