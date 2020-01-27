@@ -71,7 +71,6 @@ const goHome = async (navigation, context) => {
     }
   });
   await dispatch({ type: ActionTypes.ADD_BUNGIENETUSER, text: bungieNetUser });
-
   // const resetAction = StackActions.reset({
   //   index: 0,
   //   actions: [NavigationActions.navigate({ routeName: 'Main' })],
