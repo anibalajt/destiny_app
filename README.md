@@ -9,6 +9,7 @@ A [React Native](https://facebook.github.io/react-native/) app utilising [React 
 <br><br>
 Built as a personal training project for [React Native](https://facebook.github.io/react-native/). Design and development by [Andres Jarava](https://www.linkedin.com/in/anibalajt/).
 
+<img src="https://github.com/anibalajt/destiny_app/blob/master/app/assets/login.png" width="270" hspace="5"><img src="https://github.com/anibalajt/destiny_app/blob/master/app/assets/oauth.png" width="270" hspace="5" ><img src="https://github.com/anibalajt/destiny_app/blob/master/app/assets/home.png" width="270" hspace="5">
 
 ## Installation
 
@@ -41,7 +42,6 @@ $ cd ..
 
 $ react-native run-ios
 ```
-
 
 ## How can I get an API Key?
 
