@@ -49,7 +49,7 @@ const styles = StyleSheet.create({
     width: 65,
     height: 65,
     marginLeft: 8,
-    // marginBottom: 8
+    marginBottom: 8
   },
   weapon: {
     borderColor: "#fff",

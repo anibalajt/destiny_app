@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Text, View } from "react-native";
 import AsyncStorage from '@react-native-community/async-storage';
-import { StackActions, NavigationActions } from 'react-navigation';
+// import { StackActions, NavigationActions } from 'react-navigation';
 import { stringify } from "simple-query-string";
 
 import { payload_refresh_token } from "./utils/payloads"
