@@ -49,7 +49,7 @@ const isLogin = async (navigation, context, code) => {
       //   actions: [NavigationActions.navigate({ routeName: 'Home' })],
       // });
       // navigation.dispatch(resetAction);
-      navigation.replace({routeName: 'Home'});
+      navigation.replace('Home');
     }
     // console.log("isLogin logouttttttt");
   }

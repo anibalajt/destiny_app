@@ -3,7 +3,7 @@ import {Button, Image, View, Text, Dimensions, StyleSheet} from 'react-native';
 const {width} = Dimensions.get('window');
 
 const widthScreen = width;
-const ImageGetSize = async (uri, setHeight) => {
+const _GetImageSize = async ({uri}, setHeight) => {
   if (setHeight) {
     await Image.getSize(uri, (width, height) =>
       setHeight(height / (width / widthScreen)),
@@ -17,21 +17,22 @@ const ModalScreen = ({route, navigation}) => {
     displayProperties,
     itemTypeDisplayName,
     instances,
-    defaultDamageType: {displayProperties: DTdamage},
+    defaultDamageType: {displayProperties: Damage_displayProperties},
   } = item;
-  console.log('item', item);
   const screenshotUri = {uri: `https://www.bungie.net${screenshot}`};
   let {icon, name, description} = displayProperties;
   icon = {uri: `https://www.bungie.net${icon}`};
-  let Dicon = null;
-  if (DTdamage) {
-    Dicon = {uri: `https://www.bungie.net${DTdamage.icon}`};
+  let typeDamageIcon = null;
+  if (Damage_displayProperties) {
+    typeDamageIcon = {
+      uri: `https://www.bungie.net${Damage_displayProperties.icon}`,
+    };
   }
   const [height, setHeight] = useState(0);
   useEffect(() => {
     async function fetchData() {
       if (!height) {
-        await ImageGetSize(screenshotUri, setHeight);
+        await _GetImageSize(screenshotUri, setHeight);
       }
     }
     fetchData();
@@ -39,17 +40,17 @@ const ModalScreen = ({route, navigation}) => {
   return (
     <View style={styles.container}>
       <Image
-        style={{width, height, resizeMode: 'contain'}}
         source={screenshotUri}
+        style={{width, height, resizeMode: 'contain'}}
       />
       <View style={styles.contentInfo}>
         <Image source={icon} style={[styles.weapon]} />
         <Text style={styles.nameWeapon}>{name}</Text>
         <Text style={styles.tyoeWeapon}>{itemTypeDisplayName}</Text>
         <Text style={styles.descriptionWeapon}>{description}</Text>
-        {Dicon && (
+        {typeDamageIcon && (
           <View style={styles.contentDamage}>
-            <Image source={Dicon} style={[styles.damage]} />
+            <Image source={typeDamageIcon} style={[styles.damage]} />
             <Text style={styles.nameWeapon}>{instances.primaryStat.value}</Text>
           </View>
         )}
