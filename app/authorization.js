@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {Text, StyleSheet, SafeAreaView} from 'react-native';
+import {Image, StyleSheet, SafeAreaView} from 'react-native';
 
 import {stringify} from 'simple-query-string';
 // import { StackActions, NavigationActions } from 'react-navigation';
@@ -63,15 +63,19 @@ const Authorization = ({route, navigation, context}) => {
   }
   return (
     <SafeAreaView style={styles.container}>
-      <Text style={{fontSize: 20}}>HAY austidadakjs dkaj dka skndaknjs </Text>
+      <Image
+        source={require('./assets/vault.png')}
+        style={{marginBottom: 50, resizeMode: 'contain'}}
+      />
     </SafeAreaView>
   );
 };
 export default WrapperConsumer(Authorization);
 const styles = StyleSheet.create({
   container: {
+    justifyContent: 'center',
     flex: 1,
-    backgroundColor: 'blue',
-    justifyContent: 'flex-end',
+    alignItems: 'center',
+    backgroundColor: '#0F1317',
   },
 });

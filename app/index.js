@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {Text, View} from 'react-native';
+import {Text, View, Image} from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 // import { StackActions, NavigationActions } from 'react-navigation';
 import {stringify} from 'simple-query-string';
@@ -125,8 +125,20 @@ const Index = ({navigation, context}) => {
       return <Login navigation={navigation} />;
     default:
       return (
-        <View style={{justifyContent: 'center', flex: 1}}>
-          <Text style={{fontSize: 50}}>CARGANDOOOO </Text>
+        <View
+          style={{
+            justifyContent: 'center',
+            flex: 1,
+            alignItems: 'center',
+            backgroundColor: '#0F1317',
+          }}>
+          <Image
+            source={require('./assets/vault.png')}
+            style={{marginBottom: 50, resizeMode: 'contain'}}
+          />
+          <Text style={{fontSize: 50, color: '#fff', fontSize: 14}}>
+            CARGANDOOOO{' '}
+          </Text>
         </View>
       );
   }
