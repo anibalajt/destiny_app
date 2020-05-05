@@ -14,14 +14,14 @@ const RootStack = createStackNavigator();
 
 const MainStackScreen = () => {
   return (
-    <NavigationContainer>
+    // <NavigationContainer>
       <MainStack.Navigator headerMode="none">
         <MainStack.Screen name="Login" component={Index} />
         <MainStack.Screen name="WebView" component={WebView} />
         <MainStack.Screen name="Authorization" component={Authorization} />
         <MainStack.Screen name="Home" component={Home} />
       </MainStack.Navigator>
-    </NavigationContainer>
+    // </NavigationContainer>
   );
 };
 
@@ -51,7 +51,7 @@ const RootStackScreen = () => {
     </NavigationContainer>
   );
 };
-export default MainStackScreen;
+export default RootStackScreen;
 // const RootStack = createStackNavigator(
 //   {
 //     Main: {
