@@ -3,27 +3,43 @@ import {ActivityIndicator, View, SafeAreaView} from 'react-native';
 import {WebView} from 'react-native-webview';
 
 const wView = ({route, navigation}) => {
-  console.log('navigation :>> ', route);
+  console.log('navigation :>> ', navigation);
   const {uri} = route.params;
   return (
-    // <SafeAreaView style={{ flex: 1 }}>
+    // <SafeAreaView style={{flex: 1}}>
     <WebView
       source={{uri}}
-      bounces={false}
-      originWhitelist={['https://*', 'http://*', 'file://*', 'sms://*']}
-      style={{zIndex: 1, flex: 1}}
+      style={{zIndex: 1, flex: 1, paddingVertical: 20}}
+      originWhitelist={['https://*', 'appdestiny://*']}
       renderLoading={() => (
         <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
           <ActivityIndicator size="large" color="#d0aa21" />
         </View>
       )}
+      bounces={false}
       javaScriptEnabledAndroid={true}
       startInLoadingState={true}
-      onNavigationStateChange={navState => {
-        // Keep track of going back navigation within component
-        console.log('navState :>> ', navState);
-        if (navState.url.indexOf('appdestiny') > -1) {
-          console.log('in navState :>> ', navState);
+      // onNavigationStateChange={event => {
+      //  console.log('event :>> ', event);
+      // }}
+      onShouldStartLoadWithRequest={req => {
+        const isHTTPS = req.url.search('https://') !== -1;
+        console.log('req :>> ', req);
+        if (isHTTPS) {
+          return true;
+        } else {
+          if (req.url.startsWith('appdestiny://')) {
+            const route = req.url.replace(/.*?:\/\//g, '');
+            const code = route.match(/=([^&]+)/)[1];
+            console.log('code :>> ', code);
+            if (code) {
+              navigation.replace('Authorization', {
+                code,
+              });
+            }
+            console.log('entraa');
+          }
+          return false;
         }
       }}
     />
