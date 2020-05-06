@@ -8,6 +8,7 @@ import Home from '../home/index';
 import WebView from '../login/webView';
 import Authorization from '../authorization';
 import ModalScreen from '../ModalScreen';
+import Profile from '../profile/';
 
 const MainStack = createStackNavigator();
 const RootStack = createStackNavigator();
@@ -15,12 +16,12 @@ const RootStack = createStackNavigator();
 const MainStackScreen = () => {
   return (
     // <NavigationContainer>
-      <MainStack.Navigator headerMode="none">
-        <MainStack.Screen name="Login" component={Index} />
-        <MainStack.Screen name="WebView" component={WebView} />
-        <MainStack.Screen name="Authorization" component={Authorization} />
-        <MainStack.Screen name="Home" component={Home} />
-      </MainStack.Navigator>
+    <MainStack.Navigator headerMode="none">
+      <MainStack.Screen name="Login" component={Index} />
+      <MainStack.Screen name="WebView" component={WebView} />
+      <MainStack.Screen name="Authorization" component={Authorization} />
+      <MainStack.Screen name="Home" component={Home} />
+    </MainStack.Navigator>
     // </NavigationContainer>
   );
 };
@@ -47,6 +48,7 @@ const RootStackScreen = () => {
           options={{headerShown: false}}
         />
         <RootStack.Screen name="MyModal" component={ModalScreen} />
+        <MainStack.Screen name="Profile" component={Profile} />
       </RootStack.Navigator>
     </NavigationContainer>
   );
