@@ -1,12 +1,10 @@
-import React, { Fragment } from "react";
-import { StyleSheet, View, Dimensions, TouchableHighlight } from "react-native";
-import { ActionTypes } from "../store/index";
+import React, {Fragment} from 'react';
+import {StyleSheet, View, Dimensions, TouchableHighlight} from 'react-native';
 
-const { width } = Dimensions.get("window");
-import Emblem from "./emblem";
-import Vault from "./vault";
-
-
+const {width} = Dimensions.get('window');
+import Emblem from './emblem';
+import Vault from './vault';
+const underlayColor = '#272C30';
 const Footer = ({
   characterSelect = null,
   characters = [],
@@ -14,68 +12,61 @@ const Footer = ({
   menubar = false,
   dispatch,
   onChangeCharacter,
-  context
+  context,
+  navigation,
 }) => {
   return (
     <View style={[styles.container]}>
       <View
         style={[
           styles.characters,
-          Object.keys(characters).length > 1 && { justifyContent: "space-between" }
-        ]}
-      >
+          Object.keys(characters).length > 1 && {
+            justifyContent: 'space-between',
+          },
+        ]}>
         {Object.keys(characters).map((character, key) => (
           <TouchableHighlight
             key={key}
-            underlayColor="#272C30"
+            underlayColor={underlayColor}
             style={[
               characterSelect == characters[character].characterId &&
-              !vault && {
-                backgroundColor: "#272C30"
-              }
+                !vault && {
+                  backgroundColor: underlayColor,
+                },
             ]}
-            onPress={e => onChangeCharacter(context, characters[character].characterId)}
-          >
+            onPress={e =>
+              onChangeCharacter(context, characters[character].characterId)
+            }>
             <Fragment>
               <Emblem character={characters[character]} />
             </Fragment>
           </TouchableHighlight>
         ))}
         <TouchableHighlight
-          underlayColor="#272C30"
+          underlayColor={underlayColor}
           style={[
             vault && {
-              backgroundColor: "#272C30"
-            }
+              backgroundColor: underlayColor,
+            },
           ]}
-          onPress={e => onChangeCharacter(dispatch, "vault")}
-        >
+          onPress={e => onChangeCharacter(context, 'vault')}>
           <Vault />
         </TouchableHighlight>
       </View>
       <TouchableHighlight
-        underlayColor="#272C30"
+        underlayColor={underlayColor}
         style={[
           {
             width: 80,
-            flexDirection: "column",
-            justifyContent: "center",
-            alignItems: "center"
+            flexDirection: 'column',
+            justifyContent: 'center',
+            alignItems: 'center',
           },
           menubar && {
-            backgroundColor: "#272C30"
-          }
+            backgroundColor: underlayColor,
+          },
         ]}
-        onPress={e =>
-          onChangeCharacter(
-            !characterSelect && !vault
-              ? "vault"
-              : characterSelect && !vault && menubar
-                ? characterSelect
-                : "menubar"
-          )
-        }
-      >
+        onPress={e => navigation.navigate('Profile')}>
         <Fragment>
           <View style={[styles.line]} />
           <View style={[styles.line]} />
@@ -86,27 +77,34 @@ const Footer = ({
   );
 };
 
-export default Footer
+export default Footer;
 
 const styles = StyleSheet.create({
   container: {
     elevation: 3,
     width,
-    backgroundColor: "#12171c",
+    backgroundColor: '#12171c',
     height: 65,
-    flexDirection: "row"
+    flexDirection: 'row',
   },
   line: {
-    backgroundColor: "#fff",
+    backgroundColor: '#fff',
     width: 35,
     height: 4,
     marginVertical: 4,
-    borderRadius: 3
+    borderRadius: 3,
   },
   characters: {
     flex: 1,
     width: width - 100,
-    justifyContent: "space-evenly",
-    flexDirection: "row"
-  }
+    justifyContent: 'space-evenly',
+    flexDirection: 'row',
+  },
 });
+// onChangeCharacter(
+//   !characterSelect && !vault
+//     ? 'vault'
+//     : characterSelect && !vault && menubar
+//     ? characterSelect
+//     : 'menubar',
+// )

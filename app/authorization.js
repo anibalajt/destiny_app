@@ -7,7 +7,12 @@ import {
   payload_authorization_code,
   payload_GetMembershipsById,
 } from './utils/payloads';
-import {request, handleAccessToken, GetMembershipData} from './utils';
+import {
+  request,
+  handleAccessToken,
+  GetMembershipData,
+  getManifest,
+} from './utils';
 import WrapperConsumer, {ActionTypes} from './store/index';
 
 //get authorization code
@@ -33,6 +38,8 @@ const isLogin = async (navigation, context, code) => {
         console.log('isLogin logouttttttt');
         return false;
       }
+      const responseManifest = await getManifest();
+
       const {destinyMemberships, bungieNetUser} = resMembershipData;
       await dispatch({type: ActionTypes.ADD_AUTHORIZATION, text: tokens});
       await dispatch({
@@ -44,11 +51,6 @@ const isLogin = async (navigation, context, code) => {
         text: bungieNetUser,
       });
 
-      // const resetAction = StackActions.reset({
-      //   index: 0,
-      //   actions: [NavigationActions.navigate({ routeName: 'Home' })],
-      // });
-      // navigation.dispatch(resetAction);
       navigation.replace('Home');
     }
     // console.log("isLogin logouttttttt");

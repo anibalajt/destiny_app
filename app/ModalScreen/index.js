@@ -1,5 +1,13 @@
 import React, {useState, useEffect} from 'react';
-import {Button, Image, View, Text, Dimensions, StyleSheet} from 'react-native';
+import {
+  SafeAreaView,
+  Button,
+  Image,
+  View,
+  Text,
+  Dimensions,
+  StyleSheet,
+} from 'react-native';
 const {width} = Dimensions.get('window');
 
 const widthScreen = width;
@@ -38,12 +46,20 @@ const ModalScreen = ({route, navigation}) => {
     fetchData();
   }, [height]);
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <Image
         source={screenshotUri}
-        style={{width, height, resizeMode: 'contain'}}
+        style={{
+          width,
+          height,
+          resizeMode: 'contain',
+          position: 'absolute',
+          top: 0,
+          zIndex: 0,
+        }}
       />
-      <View style={styles.contentInfo}>
+      <View
+        style={(styles.contentInfo, height > 0 ? {top: height - 115} : null)}>
         <Image source={icon} style={[styles.weapon]} />
         <Text style={styles.nameWeapon}>{name}</Text>
         <Text style={styles.tyoeWeapon}>{itemTypeDisplayName}</Text>
@@ -56,7 +72,7 @@ const ModalScreen = ({route, navigation}) => {
         )}
         <Button onPress={() => navigation.goBack()} title="Dismiss" />
       </View>
-    </View>
+    </SafeAreaView>
   );
 };
 export default ModalScreen;

@@ -1,5 +1,5 @@
 import React, {Component, Fragment, useState, useEffect} from 'react';
-import {Text, StyleSheet, View, SafeAreaView} from 'react-native';
+import {ActivityIndicator, StyleSheet, View, SafeAreaView} from 'react-native';
 import Footer from '../footer';
 import WrapperConsumer, {ActionTypes} from '../store/index';
 import {request} from '../utils/index';
@@ -12,18 +12,28 @@ const onChangeCharacter = async (context, characterId) => {
     dispatch,
     data_account: {characterEquipment, characterInventories, instances},
   } = context;
-  await dispatch({
-    type: ActionTypes.ADD_EQUIPMENT,
-    text: {
-      equipment: characterEquipment[characterId].items,
-      other_equipment: characterInventories[characterId].items,
-      instances: instances,
-    },
-  });
-  await dispatch({
-    type: ActionTypes.ADD_CHARACTERS_SELECTED,
-    text: characterId,
-  });
+  switch (characterId) {
+    case 'vault':
+      break;
+    case 'profile':
+      // navigation.navigate('MyModal', {item});
+
+      break;
+    default:
+      await dispatch({
+        type: ActionTypes.ADD_EQUIPMENT,
+        text: {
+          equipment: characterEquipment[characterId].items,
+          other_equipment: characterInventories[characterId].items,
+          instances: instances,
+        },
+      });
+      await dispatch({
+        type: ActionTypes.ADD_CHARACTERS_SELECTED,
+        text: characterId,
+      });
+      break;
+  }
 };
 
 const getAccountDate = async context => {
@@ -115,9 +125,14 @@ const Home = ({context, navigation}) => {
             characterSelect={character_selected}
             characters={characters}
             dispatch={dispatch}
+            navigation={navigation}
           />
         </Fragment>
-      ) : null}
+      ) : (
+        <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+          <ActivityIndicator size="large" color="#d0aa21" />
+        </View>
+      )}
     </SafeAreaView>
   );
 };

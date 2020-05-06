@@ -119,7 +119,8 @@ const Index = ({navigation, context}) => {
       goHome(navigation, context);
     }
   }, [login]);
-  // console.log('login :', login);
+  console.log('login :', login);
+  console.clear()
   switch (login) {
     case 'Login':
       return <Login navigation={navigation} />;
