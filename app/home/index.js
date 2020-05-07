@@ -5,7 +5,7 @@ import WrapperConsumer, {ActionTypes} from '../store/index';
 import {request} from '../utils/index';
 import Inventory from '../inventory';
 import {payload_GetAccountDate} from '../utils/payloads';
-import setEquitpment from '../inventory/equipment';
+import equipment from '../inventory/equipment';
 
 const onChangeCharacter = async (context, characterId) => {
   const {
@@ -113,7 +113,34 @@ const Home = ({context, navigation}) => {
   if (!character_selected) {
     getAccountDate(context);
   }
-  console.log('character_selected :>> ', character_selected);
+
+  const [guardianMainWeapons, setGuardianMainWeapons] = useState({});
+  const [guardianOtherWeapons, setGuardianOtherWeapons] = useState({});
+  const [guardianMainArmor, setGuardianMainArmor] = useState({});
+  const [guardianOtherArmor, setGuardianOtherArmor] = useState({});
+  const [guardianMainMisc, setGuardianMainMisc] = useState({});
+  const [guardianOtherMisc, setGuardianOtherMisc] = useState({});
+
+  useEffect(() => {
+    async function fetchData() {
+      await equipment(
+        character_equipment,
+        guardianMainWeapons,
+        setGuardianMainWeapons,
+        guardianOtherWeapons,
+        setGuardianOtherWeapons,
+        guardianMainArmor,
+        setGuardianMainArmor,
+        guardianOtherArmor,
+        setGuardianOtherArmor,
+        guardianMainMisc,
+        setGuardianMainMisc,
+        guardianOtherMisc,
+        setGuardianOtherMisc,
+      );
+    }
+    fetchData();
+  }, [character_selected]);
   return (
     <SafeAreaView style={styles.container}>
       {character_selected ? (
@@ -121,7 +148,12 @@ const Home = ({context, navigation}) => {
           <Inventory
             navigation={navigation}
             character_equipment={character_equipment}
-            character_selected={character_selected}
+            guardianMainWeapons={guardianMainWeapons}
+            guardianOtherWeapons={guardianOtherWeapons}
+            guardianMainArmor={guardianMainArmor}
+            guardianOtherArmor={guardianOtherArmor}
+            guardianMainMisc={guardianMainMisc}
+            guardianOtherMisc={guardianOtherMisc}
           />
           <Footer
             onChangeCharacter={onChangeCharacter}
