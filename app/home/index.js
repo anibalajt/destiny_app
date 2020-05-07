@@ -109,6 +109,7 @@ const Home = ({context, navigation}) => {
   if (!character_selected) {
     getAccountDate(context);
   }
+  console.log('character_selected :>> ', character_selected);
   return (
     <SafeAreaView style={styles.container}>
       {character_selected ? (

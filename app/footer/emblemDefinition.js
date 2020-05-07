@@ -1,8 +1,7 @@
-
-import _ from "lodash";
+import _ from 'lodash';
 import SQLite from 'react-native-sqlite-storage';
 
-import { convertHash, Lenguaje } from "../utils";
+import {convertHash, Lenguaje} from '../utils';
 let DB;
 const closeDatabase = () => {
   if (DB) {
@@ -11,37 +10,50 @@ const closeDatabase = () => {
   } else {
     // console.log("Database was not OPENED");
   }
-}
-const errorCB = (err) => {
+};
+const errorCB = err => {
   // console.log("SQL Error: ", err);
-}
+};
 const openCB = () => {
   // console.log("Database OPENED");
-}
+};
 const closeCB = () => {
   // console.log("Database CLOSED");
-}
+};
 export default (character, setTypeClass) => {
   DB = SQLite.openDatabase(
-    { name: "db.sqlite3", createFromLocation: 1, location: 'Library' }, openCB, errorCB);
+    {name: 'db.sqlite3', createFromLocation: 1, location: 'Library'},
+    openCB,
+    errorCB,
+  );
 
   const idGender = convertHash(character.genderHash);
   const idClass = convertHash(character.classHash);
-  DB.transaction((tx) => {
-    tx.executeSql(`SELECT json FROM DestinyGenderDefinition where id =${idGender}`, [], (tx, results) => {
-      let len = results.rows.length;
-      for (let i = 0; i < len; i++) {
-        let row = results.rows.item(i);
-        let gender = JSON.parse(row.json).displayProperties.name
-        tx.executeSql(`SELECT json FROM DestinyClassDefinition where id =${idClass}`, [], (tx, results) => {
-          let len = results.rows.length;
-          for (let i = 0; i < len; i++) {
-            let row = results.rows.item(i);
-            setTypeClass(JSON.parse(row.json).genderedClassNames[gender])
-          }
-        }, errorCB, closeDatabase);
-      }
-
-    }, errorCB);
+  DB.transaction(tx => {
+    tx.executeSql(
+      `SELECT json FROM DestinyGenderDefinition where id =${idGender}`,
+      [],
+      (tx, results) => {
+        let len = results.rows.length;
+        for (let i = 0; i < len; i++) {
+          let row = results.rows.item(i);
+          let gender = JSON.parse(row.json).displayProperties.name;
+          tx.executeSql(
+            `SELECT json FROM DestinyClassDefinition where id =${idClass}`,
+            [],
+            (tx, results) => {
+              let len = results.rows.length;
+              for (let i = 0; i < len; i++) {
+                let row = results.rows.item(i);
+                setTypeClass(JSON.parse(row.json).genderedClassNames[gender]);
+              }
+            },
+            errorCB,
+            closeDatabase,
+          );
+        }
+      },
+      errorCB,
+    );
   });
 };
