@@ -3,7 +3,7 @@ import ActionTypes from './actionTypes.js';
 import {equipment} from '../inventory/equipment';
 const {Provider, Consumer} = createContext();
 
-const reducer = async (state, action) => {
+const reducer = async action => {
   // console.log('reducer');
   switch (action.type) {
     case ActionTypes.GET_USER:
@@ -48,14 +48,10 @@ class ContextStore extends Component {
     },
     character_selected: null,
     dispatch: async actions => {
-      // var responseAUX = [actions].reduce(async (action, obj) => {
-      //   action = {...(await reducer(this.state, obj))};
-      //   return action;
-      // }, {});
-      // console.log('response example  >>', responseAUX);
-      // console.log('response :>> ', response);
-      // return false;
-      const response = await reducer(this.state, actions);
+      let response = {};
+      for (const action of actions) {
+        response = {...response, ...(await reducer(action))};
+      }
       return this.setState(response, () => true);
     },
   };

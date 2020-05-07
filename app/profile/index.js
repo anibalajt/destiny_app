@@ -30,7 +30,7 @@ const logout = async (navigation, context) => {
   const {dispatch} = context;
   AsyncStorage.removeItem('authorization');
   AsyncStorage.removeItem('accountSelected');
-  await dispatch({type: ActionTypes.LOGOUT});
+  await dispatch([{type: ActionTypes.LOGOUT}]);
 
   navigation.dispatch(
     CommonActions.reset({
@@ -39,7 +39,6 @@ const logout = async (navigation, context) => {
     }),
   );
   navigation.goBack();
-
 };
 const Profile = ({navigation, context}) => {
   const {

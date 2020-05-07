@@ -20,18 +20,20 @@ const onChangeCharacter = async (context, characterId) => {
 
       break;
     default:
-      await dispatch({
-        type: ActionTypes.ADD_EQUIPMENT,
-        text: {
-          equipment: characterEquipment[characterId].items,
-          other_equipment: characterInventories[characterId].items,
-          instances: instances,
+      await dispatch([
+        {
+          type: ActionTypes.ADD_EQUIPMENT,
+          text: {
+            equipment: characterEquipment[characterId].items,
+            other_equipment: characterInventories[characterId].items,
+            instances: instances,
+          },
         },
-      });
-      await dispatch({
-        type: ActionTypes.ADD_CHARACTERS_SELECTED,
-        text: characterId,
-      });
+        {
+          type: ActionTypes.ADD_CHARACTERS_SELECTED,
+          text: characterId,
+        },
+      ]);
       break;
   }
 };
@@ -76,27 +78,29 @@ const getAccountDate = async context => {
     characterEquipment: characterEquipment.data,
   };
   const {dispatch} = context;
-  await dispatch({
-    type: ActionTypes.DATA_ACCOUNT,
-    text: {
-      characterEquipment: characterEquipment.data,
-      characterInventories: characterInventories.data,
-      instances: itemComponents.instances.data,
+  await dispatch([
+    {
+      type: ActionTypes.DATA_ACCOUNT,
+      text: {
+        characterEquipment: characterEquipment.data,
+        characterInventories: characterInventories.data,
+        instances: itemComponents.instances.data,
+      },
     },
-  });
-  await dispatch({
-    type: ActionTypes.ADD_EQUIPMENT,
-    text: {
-      equipment: characterEquipment.data[characterSelect].items,
-      other_equipment: characterInventories.data[characterSelect].items,
-      instances: itemComponents.instances.data,
+    {
+      type: ActionTypes.ADD_EQUIPMENT,
+      text: {
+        equipment: characterEquipment.data[characterSelect].items,
+        other_equipment: characterInventories.data[characterSelect].items,
+        instances: itemComponents.instances.data,
+      },
     },
-  });
-  await dispatch({type: ActionTypes.ADD_CHARACTERS, text: characters.data});
-  await dispatch({
-    type: ActionTypes.ADD_CHARACTERS_SELECTED,
-    text: characterSelect,
-  });
+    {type: ActionTypes.ADD_CHARACTERS, text: characters.data},
+    {
+      type: ActionTypes.ADD_CHARACTERS_SELECTED,
+      text: characterSelect,
+    },
+  ]);
 };
 
 const Home = ({context, navigation}) => {

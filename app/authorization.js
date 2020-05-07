@@ -41,15 +41,17 @@ const isLogin = async (navigation, context, code) => {
       const responseManifest = await getManifest();
 
       const {destinyMemberships, bungieNetUser} = resMembershipData;
-      await dispatch({type: ActionTypes.ADD_AUTHORIZATION, text: tokens});
-      await dispatch({
-        type: ActionTypes.ADD_MEMBERSHIPS,
-        text: {accountSelected: '1', destinyMemberships},
-      });
-      await dispatch({
-        type: ActionTypes.ADD_BUNGIENETUSER,
-        text: bungieNetUser,
-      });
+      await dispatch([
+        {type: ActionTypes.ADD_AUTHORIZATION, text: tokens},
+        {
+          type: ActionTypes.ADD_MEMBERSHIPS,
+          text: {accountSelected: '1', destinyMemberships},
+        },
+        {
+          type: ActionTypes.ADD_BUNGIENETUSER,
+          text: bungieNetUser,
+        },
+      ]);
 
       navigation.replace('Home');
     }

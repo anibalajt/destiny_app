@@ -36,7 +36,7 @@ const isLogin = async context => {
             return handleAccessToken(res.data).then(tokens => {
               if (tokens) {
                 const {dispatch} = context;
-                dispatch({type: ActionTypes.ADD_AUTHORIZATION, text: tokens});
+                dispatch([{type: ActionTypes.ADD_AUTHORIZATION, text: tokens}]);
                 return {router: 'Home', tokens};
               }
               console.log('isLogin tokens', tokens);
@@ -45,10 +45,12 @@ const isLogin = async context => {
         });
       }
       if (!tokenExpired) {
-        await dispatch({
-          type: ActionTypes.ADD_AUTHORIZATION,
-          text: authorization,
-        });
+        await dispatch([
+          {
+            type: ActionTypes.ADD_AUTHORIZATION,
+            text: authorization,
+          },
+        ]);
         return {router: 'Home', tokens: authorization};
       }
     }
@@ -77,14 +79,16 @@ const goHome = async (navigation, context) => {
   const responseManifest = await getManifest();
 
   const {destinyMemberships, bungieNetUser} = resMembershipData;
-  await dispatch({
-    type: ActionTypes.ADD_MEMBERSHIPS,
-    text: {
-      accountSelected: accountSelected ? accountSelected : '1',
-      destinyMemberships,
+  await dispatch([
+    {
+      type: ActionTypes.ADD_MEMBERSHIPS,
+      text: {
+        accountSelected: accountSelected ? accountSelected : '1',
+        destinyMemberships,
+      },
     },
-  });
-  await dispatch({type: ActionTypes.ADD_BUNGIENETUSER, text: bungieNetUser});
+    {type: ActionTypes.ADD_BUNGIENETUSER, text: bungieNetUser},
+  ]);
   // const resetAction = StackActions.reset({
   //   index: 0,
   //   actions: [NavigationActions.navigate({ routeName: 'Main' })],
@@ -120,7 +124,7 @@ const Index = ({navigation, context}) => {
     }
   }, [login]);
   console.log('login :', login);
-  console.clear()
+  // console.clear();
   switch (login) {
     case 'Login':
       return <Login navigation={navigation} />;
