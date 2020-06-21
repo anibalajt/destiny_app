@@ -17,6 +17,7 @@ import Login from './login/index';
 
 //see if there is a login and token expired
 const isLogin = async context => {
+  console.log('index isLogin');
   const {dispatch} = context;
   try {
     let authorization = await AsyncStorage.getItem('authorization');
@@ -76,25 +77,27 @@ const goHome = async (navigation, context) => {
     console.log('goHome logouttttttt');
     return false;
   }
-  const responseManifest = await getManifest();
-
-  const {destinyMemberships, bungieNetUser} = resMembershipData;
-  await dispatch([
-    {
-      type: ActionTypes.ADD_MEMBERSHIPS,
-      text: {
-        accountSelected: accountSelected ? accountSelected : '1',
-        destinyMemberships,
+  const responseManifest = await getManifest(context);
+  if (responseManifest) {
+    console.log('responseManifest');
+    const {destinyMemberships, bungieNetUser} = resMembershipData;
+    await dispatch([
+      {
+        type: ActionTypes.ADD_MEMBERSHIPS,
+        text: {
+          accountSelected: accountSelected ? accountSelected : '1',
+          destinyMemberships,
+        },
       },
-    },
-    {type: ActionTypes.ADD_BUNGIENETUSER, text: bungieNetUser},
-  ]);
-  // const resetAction = StackActions.reset({
-  //   index: 0,
-  //   actions: [NavigationActions.navigate({ routeName: 'Main' })],
-  // });
-  // navigation.dispatch(resetAction);
-  navigation.replace('Home');
+      {type: ActionTypes.ADD_BUNGIENETUSER, text: bungieNetUser},
+    ]);
+    // const resetAction = StackActions.reset({
+    //   index: 0,
+    //   actions: [NavigationActions.navigate({ routeName: 'Main' })],
+    // });
+    // navigation.dispatch(resetAction);
+    navigation.replace('Home');
+  }
 };
 const Index = ({navigation, context}) => {
   // AsyncStorage.removeItem("authorization");
@@ -142,7 +145,7 @@ const Index = ({navigation, context}) => {
             style={{marginBottom: 50, resizeMode: 'contain'}}
           />
           <Text style={{fontSize: 50, color: '#fff', fontSize: 14}}>
-            CARGANDOOOO{' '}
+            CARGANDOOOO
           </Text>
         </View>
       );

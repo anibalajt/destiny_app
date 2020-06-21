@@ -8,16 +8,19 @@ import {request} from './request';
 import {payload_Get} from './payloads';
 import Lenguaje from './lenguaje';
 import endpoints from './endpoints';
+import makeJson from './make_json';
 const lc = Lenguaje();
 
-export default async () => {
-  console.log('ENTRAAAAAAAAAAAAAAA ', 'manifest');
+export default async context => {
+  // console.clear();
+  console.log('MANIFEST');
   // await fileExist(targetPathLibrary + '/db.sqlite3')
   let dirs = RNFetchBlob.fs.dirs;
   const targetPathLibrary = dirs.LibraryDir;
   // const targetPath = dirs.DocumentDir + '/LocalDatabase';
   // await SQLite.deleteDatabase('db.sqlite3')
   // await RNFetchBlob.fs.unlink(targetPathLibrary + '/db.sqlite3')
+  // await RNFetchBlob.fs.unlink(targetPathLibrary + '/destinyInventoryItemDefinition.json')
   // await SQLite.deleteDatabase('db.sqlite3')
   // RNFetchBlob.fs.unlink(targetPath)
   // RNFetchBlob.fs.unlink(targetPathLibrary + '/db.sqlite3')
@@ -26,6 +29,21 @@ export default async () => {
   // AsyncStorage.removeItem("manifest");
   // return false
   try {
+    const json = await fileExist(
+      `${dirs.CacheDir}/destinyInventoryItemDefinition.json`,
+    );
+    console.log('json exits :>> ', json);
+    if (json) {
+      RNFetchBlob.fs
+        .readFile(
+          `${dirs.CacheDir}/destinyInventoryItemDefinition.json`,
+          'utf8',
+        )
+        .then(data => {
+          // handle the data ..
+          console.log('json exist :>> ', JSON.parse(data));
+        });
+    }
     const res = await request(payload_Get(endpoints.getManifest));
     if (res.data.Response.version) {
       const manifest = await AsyncStorage.getItem('manifest');
@@ -35,8 +53,8 @@ export default async () => {
         versionManifest: '0.0.1',
         languaje: lc,
       };
-      // console.log('versionManifest', versionManifest)
       console.log(versionManifest, '!== ', res.data.Response.version);
+      //IF THERE IS A NEW VERSION
       if (versionManifest !== res.data.Response.version) {
         await SQLite.deleteDatabase('db.sqlite3');
         await RNFetchBlob.fs.unlink(targetPathLibrary + '/db.sqlite3');
@@ -51,6 +69,9 @@ export default async () => {
         );
         console.log('Sqlite3Exist', Sqlite3Exist);
         if (Sqlite3Exist) {
+          //CREATE FILE .JSON
+          makeJson(context);
+
           await AsyncStorage.setItem(
             'manifest',
             JSON.stringify({
@@ -58,20 +79,21 @@ export default async () => {
               languaje: lc,
             }),
           );
-
+          console.log('END MANIFEST');
           return true;
         }
       } else {
-        console.log('same version');
+        console.log('END MANIFEST =');
         return true;
       }
     }
     // }
   } catch (error) {
-    console.log('manifest error', error);
+    console.log('MANIFEST ERROR', error);
     return false;
   }
 };
+
 const downloadDB = async (mobileWorldContentPaths, fileName) => {
   console.log('downloadDB');
   try {
@@ -116,6 +138,7 @@ const downloadDB = async (mobileWorldContentPaths, fileName) => {
     return false;
   }
 };
+
 const fileExist = async Path => {
   return await RNFetchBlob.fs.exists(Path);
 };

@@ -43,7 +43,7 @@ const Inventory = ({
           other_equipment={guardianOtherArmor}
         />
       ) : (
-        <Text>Cargando</Text>
+        <Text>Cargando</Text> 
       )}
       {Object.keys(guardianMainMisc).length ? (
         <Set

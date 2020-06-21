@@ -17,7 +17,7 @@ import WrapperConsumer, {ActionTypes} from './store/index';
 
 //get authorization code
 const isLogin = async (navigation, context, code) => {
-  console.log('isLogin');
+  console.log('authorization isLogin');
   let payload = JSON.parse(payload_authorization_code);
   let {data} = payload;
   data = {...data, code};
@@ -38,7 +38,7 @@ const isLogin = async (navigation, context, code) => {
         console.log('isLogin logouttttttt');
         return false;
       }
-      const responseManifest = await getManifest();
+      const responseManifest = await getManifest(context);
 
       const {destinyMemberships, bungieNetUser} = resMembershipData;
       await dispatch([
